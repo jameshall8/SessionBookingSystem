@@ -1,0 +1,26 @@
+﻿@using Azure
+@using WebApp.Controllers
+
+
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    @{
+        string hello = "";
+        if (!User.Identity.IsAuthenticated)
+        {
+            hello = "not signed in";
+            
+        }
+        else
+        {
+            hello = "signed in";
+        }
+    }
+    
+
+
+@Html.Raw(hello)</p>
