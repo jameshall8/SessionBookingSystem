@@ -1,0 +1,56 @@
+@model BookingViewModel
+
+
+@{
+    // ViewBag.Title = "ChooseSessions";
+    Layout = "_Layout";
+}
+
+<div class="d-flex justify-content-center">
+    <h1>@ViewData["Title"]</h1>
+</div>
+
+<br/>
+
+<div class="d-flex justify-content-center">
+    <h1> Select Sessions To Open for @Model.Date.ToString("dd/MM/yyyy")</h1>
+</div>
+<br/>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Time Of Session</th>
+      <th scope="col">Open</th>
+    </tr>
+  </thead>
+  <tbody>
+    @{
+        var counter = 1;
+        foreach (var var in Model.PotentialBookingsList)
+        {
+            <tr>
+                <th scope="row">@counter</th>
+                <td>@var.TimeOfSession</td>
+                    @using (Html.BeginForm("PostBooking", "Booking", FormMethod.Post))
+                {
+                    <input type="hidden" id="timeOfSession" name="timeOfSession"
+                           value="@var.TimeOfSession"/>
+                    <input type="hidden" id="dateOfSession" name="dateOfSession"
+                           value="@Model.Date"/>
+                    <td> <input type="submit" value="Open Time Slot" class="btn btn-secondary" />     </td>
+                    
+                }
+            </tr>
+    
+            counter = counter + 1;
+        }
+    }
+    
+    
+  </tbody>
+</table>
+
+
+

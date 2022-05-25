@@ -1,11 +1,55 @@
-@model dynamic
+@model List<PotentialBookings>
 
 
 @{
-    ViewBag.Title = "ChooseSessions";
+    // ViewBag.Title = "ChooseSessions";
     Layout = "_Layout";
 }
 
-<h1>@ViewData["Message"]</h1>
+<div class="d-flex justify-content-center">
+    <h1>@ViewData["Title"]</h1>
+</div>
 
-<h2>title</h2>
+<br/>
+
+@using (Html.BeginForm("PickHours","Booking", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="d-flex justify-content-center">
+            <label for="start">Choose Date</label>
+        </div>
+        <br/>
+
+        <div class="d-flex justify-content-center">
+        <div>
+            <input type="date" id="date" name="date"
+                   value="@ViewData["TodaysDate"]"
+                   min="@ViewData["TodaysDate"]" max="2022-08-01">
+        </div>
+        </div>
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+            </div>
+
+            <div class="form-group d-flex justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <input type="submit" value="View Time Slots" class="btn btn-secondary" />
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+
+
+
+
+
+
+
+
