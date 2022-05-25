@@ -25,13 +25,17 @@ public class BookingController : Controller
          });
 
      }
-
      var bookingViewModel = new BookingViewModel()
      {
          PotentialBookingsList = _potentialBookings,
          Date = date
      };
      return View(bookingViewModel);
+    }
+    
+    public ActionResult create()
+    {
+        return View();
     }
 
 

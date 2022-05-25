@@ -1,0 +1,57 @@
+@page
+@model WebApp.Views
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Booking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Booking.AdminAccountId" class="control-label"></label>
+                <input asp-for="Booking.AdminAccountId" class="form-control" />
+                <span asp-validation-for="Booking.AdminAccountId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking.DateOfSession" class="control-label"></label>
+                <input asp-for="Booking.DateOfSession" class="form-control" />
+                <span asp-validation-for="Booking.DateOfSession" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Booking.Booked" /> @Html.DisplayNameFor(model => model.Booking.Booked)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking.usernameOfUser" class="control-label"></label>
+                <input asp-for="Booking.usernameOfUser" class="form-control" />
+                <span asp-validation-for="Booking.usernameOfUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking.Created" class="control-label"></label>
+                <input asp-for="Booking.Created" class="form-control" />
+                <span asp-validation-for="Booking.Created" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking.Completed" class="control-label"></label>
+                <input asp-for="Booking.Completed" class="form-control" />
+                <span asp-validation-for="Booking.Completed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
