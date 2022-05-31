@@ -4,22 +4,21 @@ namespace WebApp.Models;
 
 public class bookingDto
 {
-    public int Id { get; set; }
-    
-    
 
+    [Required]
     public string AdminAccountId { get; set; }
+    
     [Required]
-
     public DateTime DateOfSession { get; set; }
-    [Required]
     
+    [Required]
     public bool Booked { get; set; }
-    [Required]
     
+    [Required]
     public string usernameOfUser { get; set; }
     
-    public DateTime Created { get; set; }
     
-    public DateTime? Completed { get; set; }
+    public DateTime Created { get; set; }
+
+    
 }

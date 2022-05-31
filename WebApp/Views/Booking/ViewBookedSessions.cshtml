@@ -1,31 +1,59 @@
-@model IList<string>
+@model IList<bookingDto>
 
 @{
-    ViewBag.Title = "ViewBookedSessions";
     Layout = "_Layout";
 }
 
-<h2>View Booked Sessions</h2>
+<div class="d-flex justify-content-center">
+    <h1> Open sessions for @User.Identity.Name</h1>
+</div>
+<br/>
 
+<form asp-action="ViewBookedSessions" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="ViewBookedSessions">Back to Full List</a>
+        </p>
+    </div>
+</form>
 
 <table class="table">
-    <tr>
-        <th>
-        </th>
-        <th>
-        </th>
-    <th></th>
-    </tr>
+  <thead>
+  <tr>
+      <th scope="col">#</th>
+      <th scope="col">
+          <a asp-action="ViewBookedSessions" asp-route-sortOrder="@ViewData["DateSortParm"]">Date Of Session</a>
+          
+      </th>
+      <th scope="col">Time Of Session</th>
+      <th scope="col">Edit</th>
+  </tr>
+  </thead>
+  <tbody>
 
-    @foreach (var item in Model) {
+
+  @{
+      var counter = 1;
+      foreach (var booking in Model)
+    {
+        
         <tr>
-            <td>
-            </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        </tr>
-    }
+            <th scope="row">@counter</th>
+            <td>@booking.DateOfSession.ToString("dd/MM/yyyy")</td>
+            <td>@booking.DateOfSession.TimeOfDay</td>
+            <td>@booking.DateOfSession.TimeOfDay</td>
+            <td><input name="checkbox" type="checkbox" value="" /><br /></td>
 
-</table>
+
+        </tr>
+        counter = counter + 1;
+    }
+}
+
+   </tbody>
+  </table>
+
+    
+

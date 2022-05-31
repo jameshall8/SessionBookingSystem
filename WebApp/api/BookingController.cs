@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WebApp.Data;
 using WebApp.Models;
 
@@ -33,14 +34,14 @@ namespace WebApp.api
         }
 
         // GET: api/Booking/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Booking>> GetBooking(int id)
+        [HttpGet("{name}")]
+        public async Task<ActionResult<Booking>> GetBooking(string name)
         {
           if (_context.Bookings == null)
           {
               return NotFound();
           }
-            var booking = await _context.Bookings.FindAsync(id);
+            var booking = await _context.Bookings.FindAsync(name);
 
             if (booking == null)
             {
@@ -86,6 +87,9 @@ namespace WebApp.api
         [HttpPost]
         public async Task<ActionResult<Booking>> PostBooking(Booking booking)
         {
+            
+            // string AdminAccountId, DateTime DateOfSession, bool Booked, string usernameOfUser
+
           if (_context.Bookings == null)
           {
               return Problem("Entity set 'BookingDbContext.Bookings'  is null.");

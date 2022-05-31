@@ -307,3 +307,4 @@
 /Users/macbook/Documents/Booking system/SessionBookingSystem/WebApp/bin/Debug/net6.0/runtimes/win-arm64/native/e_sqlite3.dll
 /Users/macbook/Documents/Booking system/SessionBookingSystem/WebApp/bin/Debug/net6.0/runtimes/win-x64/native/e_sqlite3.dll
 /Users/macbook/Documents/Booking system/SessionBookingSystem/WebApp/bin/Debug/net6.0/runtimes/win-x86/native/e_sqlite3.dll
+/Users/macbook/Documents/Booking system/SessionBookingSystem/WebApp/bin/Debug/net6.0/Microsoft.Build.Framework.dll
