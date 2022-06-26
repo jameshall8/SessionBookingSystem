@@ -18,12 +18,20 @@ public class BookingController : Controller
         List<PotentialBookings> potentialBookings = new List<PotentialBookings>();
         for(int i = 9; i < 18; i++)
         {
-            potentialBookings.Add(new PotentialBookings()
-            {
-                TimeOfSession = i + ":00"
-            });
+            string time = i + ":00";
+            DateTime DateAndTime = formatTime(time, date);
 
+            bool isOpen =  CheckIfSessionIsAlreadyOpen(DateAndTime).Result;
+
+            if (!isOpen)
+            {
+                potentialBookings.Add(new PotentialBookings()
+                {
+                    TimeOfSession = i + ":00"
+                });
+            }
         }
+        
         var bookingViewModel = new CheckBoxListItem()
         {
             booking = new BookingViewModel()
@@ -34,6 +42,24 @@ public class BookingController : Controller
         };
         
         return bookingViewModel;
+    }
+
+    private async Task<bool> CheckIfSessionIsAlreadyOpen(DateTime date)
+    {
+        var client = GetHttpClient();
+
+        var response = await client.GetAsync($"api/Booking/GetBookingByDate/api/Booking/GetBookingByDate/" + date);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var bookings = await response.Content.ReadFromJsonAsync<IEnumerable<bookingDto>>();
+            if (bookings.Any())
+            {
+                return true;
+            }
+
+        }
+        return false;
     }
     
     
@@ -121,18 +147,23 @@ public class BookingController : Controller
     [HttpGet]
     public async Task<IActionResult> ViewBookedSessions(string sortOrder, string searchString)
     {
+
+        HttpResponseMessage response;
         ViewData["DateSortParm"] = sortOrder == "Date" ? "dateMostRecent" : "Date";
         ViewData["CurrentFilter"] = searchString;
         
         List<bookingDto> Bookings = new List<bookingDto>();
 
         var client = GetHttpClient();
-
-        var test = "jameshall8@outlook.com";
         
-        HttpResponseMessage response = await client.GetAsync($"api/Booking/jameshall8@outlook.com");
-        response.EnsureSuccessStatusCode();
-
+        if (!String.IsNullOrEmpty(searchString))
+        {
+            response = await client.GetAsync($"api/Booking/GetBookingBySearch/api/Booking/GetBookingBySearch/" + searchString +  "/" + User.Identity.Name);
+        }
+        else
+        {
+            response = await client.GetAsync($"api/Booking/GetBookingByEmail/" + User.Identity.Name);
+        }
         
         
         if (response.IsSuccessStatusCode)
@@ -144,11 +175,7 @@ public class BookingController : Controller
                 Bookings.Add(booking);
             }
             
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                Bookings = Bookings.Where(s => s.usernameOfUser.Contains(searchString)
-                                               || s.AdminAccountId.Contains(searchString)).ToList();
-            }
+            
             
             switch (sortOrder)
             {
@@ -167,11 +194,10 @@ public class BookingController : Controller
         return View(Bookings);
     }
 
-    
-    
-    
-
-
+    public IActionResult Delete(DateTime Date)
+    {
+        return RedirectToAction("ChooseSessions");
+    }
 
     // GET
     public IActionResult ChooseSessions()

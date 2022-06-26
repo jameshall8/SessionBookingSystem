@@ -5,7 +5,7 @@
 }
 
 <div class="d-flex justify-content-center">
-    <h1> Open sessions for @User.Identity.Name</h1>
+    <h1> Sessions for @User.Identity.Name</h1>
 </div>
 <br/>
 
@@ -43,9 +43,12 @@
             <th scope="row">@counter</th>
             <td>@booking.DateOfSession.ToString("dd/MM/yyyy")</td>
             <td>@booking.DateOfSession.TimeOfDay</td>
-            <td>@booking.DateOfSession.TimeOfDay</td>
-            <td><input name="checkbox" type="checkbox" value="" /><br /></td>
+            <td>
+                @Html.ActionLink("Edit", "Delete", "Booking", new { Date=booking.DateOfSession }) |
+                @Html.ActionLink("Details", "Delete", "Booking",new { Date=booking.DateOfSession }) |
+                @Html.ActionLink("Delete", "Delete",  "Booking",new { id=booking.DateOfSession })
 
+            </td>
 
         </tr>
         counter = counter + 1;

@@ -11,7 +11,7 @@ using WebApp.Models;
 
 namespace WebApp.api
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class BookingController : ControllerBase
     {
@@ -32,22 +32,94 @@ namespace WebApp.api
           }
             return await _context.Bookings.ToListAsync();
         }
+        
+        [HttpGet("{AdminAccountId}")]
+        [ActionName("GetBookingByEmail")]
+        public async Task<List<Booking>> GetBookingByEmail(string AdminAccountId)
+        {
+            // if (_context.Bookings == null)
+            // {
+            //     return NotFound();
+            // }
+            
+            List<Booking> booking = await _context.Bookings.Where(x => x.AdminAccountId == AdminAccountId).ToListAsync();
+            
+            
+
+            // if (booking == null)
+            // {
+            //     return NotFound();
+            // }
+
+            return booking;
+        }
+        
+        [HttpGet("{searchString, email}")]
+        [ActionName("GetBookingBySearch")]
+        [Route("api/[controller]/[action]/{searchString}/{email}")]
+        public async Task<List<Booking>> GetBookingBySearch(string searchString, string email)
+        {
+             if (_context.Bookings == null)
+             {
+                 return new List<Booking>();
+             }
+            
+             List<Booking> booking = await _context.Bookings.Where(x => x.DateOfSession.ToString().Substring(0, 10).Contains(searchString) && x.AdminAccountId == email).ToListAsync();
+            
+            
+
+             if (booking == null) 
+             {
+                 return new List<Booking>();
+             }
+
+             return booking;
+        }
+        
+        [HttpGet("{date}")]
+        [ActionName("GetBookingByDate")]
+        [Route("api/[controller]/[action]/{date}")]
+        public async Task<List<Booking>> GetBookingByDate(DateTime date)
+        {
+            if (_context.Bookings == null)
+            {
+                return new List<Booking>();
+            }
+            
+            
+            List<Booking> booking = await _context.Bookings.Where(x => x.DateOfSession == date).ToListAsync();
+            
+            
+
+            if (booking == null) 
+            {
+                return new List<Booking>();
+            }
+
+            return booking;
+        }
+        
+        
+        
 
         // GET: api/Booking/5
-        [HttpGet("{name}")]
-        public async Task<ActionResult<Booking>> GetBooking(string name)
+        [HttpGet("{Id}")]
+        [ActionName("GetBookingById")]
+        public async Task<ActionResult<Booking>> GetBookingById(int Id)
         {
           if (_context.Bookings == null)
           {
               return NotFound();
           }
-            var booking = await _context.Bookings.FindAsync(name);
-
+          
+            var booking = await _context.Bookings.FindAsync(Id);
+        
+        
             if (booking == null)
             {
                 return NotFound();
             }
-
+        
             return booking;
         }
 
@@ -97,7 +169,7 @@ namespace WebApp.api
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
+            return CreatedAtAction("GetBookingById", new { id = booking.Id }, booking);
         }
 
         // DELETE: api/Booking/5
